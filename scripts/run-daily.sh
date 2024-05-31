@@ -5,6 +5,5 @@ while true; do
   backup.sh
   rotate.sh
   echo "Backup completed!"
-  # sleep 86400 # 24h
-  sleep 60
+  sleep 86400 # 24h
 done
