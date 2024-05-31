@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
     s3cmd \
     curl \
     tar \
+    cron \
     && rm -rf /var/lib/apt/lists/*
 
 COPY .s3cfg /root/.s3cfg
@@ -14,8 +15,11 @@ RUN chmod +x /usr/local/bin/backup.sh
 COPY scripts/check.sh /usr/local/bin/check.sh
 RUN chmod +x /usr/local/bin/check.sh
 
-COPY scripts/delete.sh /usr/local/bin/delete.sh
-RUN chmod +x /usr/local/bin/delete.sh
+COPY scripts/rotate.sh /usr/local/bin/rotate.sh
+RUN chmod +x /usr/local/bin/rotate.sh
+
+COPY scripts/run-daily.sh /usr/local/bin/run-daily.sh
+RUN chmod +x /usr/local/bin/run-daily.sh
 
 COPY scripts/slack.sh /usr/local/bin/slack.sh
 RUN chmod +x /usr/local/bin/slack.sh

@@ -4,8 +4,10 @@ image = rafaelbmateus/do-backup:$(tag)
 build:
 	docker build -t $(image) .
 
-run:
-	docker run --env-file .env --rm $(image)
+check: build
+	docker run --rm \
+		--env-file .env \
+		$(image) check.sh
 
 backup:
 	docker run --rm \
@@ -18,6 +20,11 @@ bash:
 		--env-file .env \
 		-v $(dir):/backup \
 		$(image) /bin/bash
+
+run-daily: build
+	docker run --rm -d \
+		--env-file .env \
+		$(image) run-daily.sh
 
 push:
 	docker image push $(image)
