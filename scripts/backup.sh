@@ -2,10 +2,10 @@
 
 source slack.sh
 
-BACKUP_NAME="backup_$(date +'%Y%m%d%H%M%S').tar.gz"
-BACKUP_DIR="/backup"
+BACKUP="/backup"
+BACKUP_NAME="$(date +'%Y%m%d%H%M%S').tar.gz"
 
-tar -czf $BACKUP_NAME ${BACKUP_DIR}
+tar -czf $BACKUP_NAME $BACKUP_DIR
 
 if s3cmd put $BACKUP_NAME ${DO_SPACE}/${DO_FOLDER}/; then
   send_slack_notification "Backup completed successfully: $BACKUP_NAME"

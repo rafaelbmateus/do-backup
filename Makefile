@@ -7,24 +7,29 @@ build:
 check: build
 	docker run --rm \
 		--env-file .env \
-		$(image) check.sh
+		$(image) \
+		check.sh
 
-backup:
+backup: build
 	docker run --rm \
 		--env-file .env \
 		-v $(dir):/backup \
-		$(image) backup.sh
+		$(image) \
+		backup.sh
+
+run-daily: build
+	docker run --rm -d \
+		--env-file .env \
+		-v $(dir):/backup \
+		$(image) \
+		run-daily.sh
 
 bash:
 	docker run --rm -ti \
 		--env-file .env \
 		-v $(dir):/backup \
-		$(image) /bin/bash
+		$(image) \
+		/bin/bash
 
-run-daily: build
-	docker run --rm -d \
-		--env-file .env \
-		$(image) run-daily.sh
-
-push:
+push: build
 	docker image push $(image)
