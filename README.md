@@ -17,7 +17,7 @@ make backup dir=/home/rafael/dev/me/backup/scripts
 To create a backup of single file execute:
 
 ```console
-make backup dir=/home/rafael/dev/me/backup/scripts/backup.sh
+make backup dir=/home/rafael/dev/me/backup/scripts/backup.2
 ```
 
 To run daily in a for execute:
@@ -69,4 +69,32 @@ docker run --rm -d \
   -v /my-file:/backup/ \
   rafaelbmateus/do-backup:latest \
   run-daily.sh
+```
+
+## Docker compose
+
+```yml
+  do-backup-images:
+    image: rafaelbmateus/do-backup:latest
+    environment:
+      DO_FOLDER: meus-backups
+      DO_SPACE: s3://rafaelbmateus
+      SLACK_WEBHOOK_URL: <YOUR_SLACK_WEBHOOK_URL>
+      ACCESS_KEY: <YOUR_ACCESS_KEY>
+      SECRET_KEY: <YOUR_SECRET_KEY>
+    command: run-daily.sh
+    volumes:
+      - ../public/uploads:/backup
+
+  do-backup-pg:
+    image: rafaelbmateus/do-backup:latest
+    environment:
+      DO_FOLDER: meus-backups
+      DO_SPACE: s3://rafaelbmateus
+      SLACK_WEBHOOK_URL: <YOUR_SLACK_WEBHOOK_URL>
+      ACCESS_KEY: <YOUR_ACCESS_KEY>
+      SECRET_KEY: <YOUR_SECRET_KEY>
+    command: run-daily.sh
+    volumes:
+      - ../dumps/last.sql:/backup
 ```

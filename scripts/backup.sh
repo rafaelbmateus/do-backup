@@ -2,7 +2,7 @@
 
 source slack.sh
 
-BACKUP="/backup"
+BACKUP_DIR="/backup"
 BACKUP_NAME="$(date +'%Y%m%d%H%M%S').tar.gz"
 
 tar -czf $BACKUP_NAME $BACKUP_DIR
