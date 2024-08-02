@@ -11,9 +11,9 @@ if [ $BACKUPS_TO_DELETE -gt 0 ]; then
   BACKUPS_TO_REMOVE=$(echo "$ALL_BACKUPS" | head -n $BACKUPS_TO_DELETE)
   for BACKUP in $BACKUPS_TO_REMOVE; do
     if s3cmd del $BACKUP; then
-      send_slack_notification "Backup deleted: $BACKUP"
+      send_slack_notification "[$DO_FOLDER] Backup deleted: $BACKUP"
     else
-      send_slack_notification "Error to delete backup: $BACKUP"
+      send_slack_notification "[$DO_FOLDER] Error to delete backup: $BACKUP"
     fi
   done
 fi
